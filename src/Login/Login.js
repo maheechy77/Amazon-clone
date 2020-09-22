@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { auth } from "../firebase";
+import { useStateValue } from "../StateProvider";
 
 function Login() {
-	const history = useHistory();
+	const [{}, dispatch] = useStateValue();
+	let history = useHistory();
+	let location = useLocation();
 	const [email, setEmail] = useState("");
 	const [password, setPassowrd] = useState("");
+
+	let { from } = location.state || { from: { pathname: "/" } };
 
 	const signIn = (e) => {
 		e.preventDefault();
@@ -14,9 +19,12 @@ function Login() {
 		auth
 			.signInWithEmailAndPassword(email[0], password[0])
 			.then((auth) => {
-				console.log(auth);
 				if (auth) {
-					history.push("/");
+					dispatch({
+						type: "LoggedIn",
+						isLoggedIn: true,
+					});
+					history.replace(from);
 				}
 			})
 			.catch((error) => alert(error.message));
@@ -24,11 +32,9 @@ function Login() {
 
 	const register = (e) => {
 		e.preventDefault();
-		console.log(email, password);
 		auth
 			.createUserWithEmailAndPassword(email[0], password[0])
 			.then((auth) => {
-				console.log(auth);
 				if (auth) {
 					history.push("/");
 				}

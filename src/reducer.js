@@ -3,6 +3,7 @@ import React from "react";
 export const initialState = {
 	basket: [],
 	user: null,
+	isLoggedIn: false,
 };
 
 export const getTotal = (basket) => {
@@ -11,10 +12,9 @@ export const getTotal = (basket) => {
 	return Math.round(total);
 };
 
-export const memoizedReducer = (state, action) => {
+export const reducer = (state, action) => {
 	switch (action.type) {
 		case "ADD_TO_BASKET":
-			console.log("clicked");
 			let basketIndex = state.basket.findIndex(
 				(basketItem) => basketItem.id === action.id
 			);
@@ -65,6 +65,11 @@ export const memoizedReducer = (state, action) => {
 			return {
 				...state,
 				user: action.user,
+			};
+		case "LoggedIn":
+			return {
+				...state,
+				isLoggedIn: action.isLoggedIn,
 			};
 		default:
 			return state;

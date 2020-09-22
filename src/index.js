@@ -4,11 +4,11 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { StateProvider } from "./StateProvider";
-import { memoizedReducer, initialState } from "./reducer.js";
+import { reducer, initialState } from "./reducer.js";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<StateProvider initialState={initialState} reducer={memoizedReducer}>
+		<StateProvider initialState={initialState} reducer={reducer}>
 			<App />
 		</StateProvider>
 	</React.StrictMode>,

@@ -8,11 +8,15 @@ import { useStateValue } from "../StateProvider";
 import { auth } from "../firebase";
 
 const Header = () => {
-	const [{ basket, user }, dispatch] = useStateValue();
+	const [{ basket, user, isLoggedIn }, dispatch] = useStateValue();
 	const username = user ? user.email.split("@")[0] : "Guest";
 
 	const handleAuth = () => {
 		if (user) {
+			dispatch({
+				type: "LoggedIn",
+				isLoggedIn: false,
+			});
 			auth.signOut();
 		}
 	};

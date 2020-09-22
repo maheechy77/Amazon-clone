@@ -12,6 +12,7 @@ import Payment from "./Payment/Payment";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Orders from "./Orders/Orders";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 const promise = loadStripe(
 	"pk_test_51GvPqYAMOqITGUqqx3VX1hcUvfeApCMTQSvZAzuMKGtddhkVjB8iN4reO7xLNB8TxUFy02YVtTESSHiXdzqsTTkn00VumuyVkA"
@@ -34,6 +35,7 @@ function App() {
 			}
 		});
 	}, []);
+
 	return (
 		<div className="App">
 			<Router>
@@ -42,17 +44,18 @@ function App() {
 					<Route path="/login">
 						<Login />
 					</Route>
-					<Route path="/orders">
+					<PrivateRoute exact path="/orders">
 						<Orders />
-					</Route>
+					</PrivateRoute>
 					<Route path="/checkout">
 						<Checkout />
 					</Route>
-					<Route exact path="/payment">
+					<PrivateRoute exact path="/payment">
 						<Elements stripe={promise}>
 							<Payment />
 						</Elements>
-					</Route>
+					</PrivateRoute>
+
 					<Route exact path="/">
 						<Home />
 					</Route>
